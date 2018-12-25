@@ -1,0 +1,8 @@
+select id_contest, id_user, SUM(result)
+from (Select *
+from (select result.id_contest, result.id_test, result.id_user, result.result, result.created_at, t1.a
+from result LEFT join (SELECT id_contest,id_test,id_user, MAX(created_at) a
+from result
+group by id_contest,id_test,id_user) t1 on result.id_contest = t1.id_contest and result.id_test = t1.id_test and result.id_user = t1.id_user) t2
+WHERE t2.created_at = t2.a) t3
+GROUP by id_user
